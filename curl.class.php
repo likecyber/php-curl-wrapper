@@ -61,6 +61,9 @@ class Curl {
 
 	public function init($options = NULL) {
 		$this->close();
+		$this->options = array();
+		$this->raw_options = array();
+		$this->raw_strings = array();
 		$this->handle = curl_init();
 		$this->RETURNTRANSFER = true; // Override RETURNTRANSFER option.
 		if (file_exists(__DIR__."/cacert.pem")) { // If cacert.pem exists, Override SSL_VERIFYPEER and CAINFO options.
@@ -79,8 +82,7 @@ class Curl {
 	}
 
 	public function reset() {
-		curl_reset($this->handle);
-		return $this;
+		return $this->init();
 	}
 
 	public function setopt($option, $value) {
