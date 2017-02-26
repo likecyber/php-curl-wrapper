@@ -11,7 +11,7 @@ class Curl {
 	public $errno = NULL;
 	public $error = NULL;
 	public $info = NULL;
-	public $response = NULL;
+	public $result = NULL;
 
 	public function __construct($options = NULL) {
 		if (is_object($options) && isset($options->options) && is_array($options->options)) {
@@ -126,11 +126,11 @@ class Curl {
 	}
 
 	public function exec() {
-		$this->response = curl_exec($this->handle);
+		$this->result = curl_exec($this->handle);
 		$this->errno = $this->errno();
 		$this->error = $this->error();
 		$this->info = $this->getinfo();
-		return $this->response;
+		return $this->result;
 	}
 
 	public function close() {
