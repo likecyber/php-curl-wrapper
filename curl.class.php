@@ -14,14 +14,7 @@ class Curl {
 	public $result = NULL;
 
 	public function __construct($options = NULL) {
-		if (is_object($options) && isset($options->options) && is_array($options->options)) {
-			$this->init_options = $options->options;
-		} elseif (is_array($options)) {
-			$this->init_options = $options;
-		} elseif (is_string($options)) {
-			$this->init_options = array("URL" => $options);
-		}
-		$this->init();
+		$this->init($options);
 	}
 
 	public function __call($function, $arguments) {
@@ -59,7 +52,7 @@ class Curl {
 		}
 	}
 
-	public function init($options = NULL) {
+	private function _setup() {
 		$this->close();
 		$this->options = array();
 		$this->raw_options = array();
@@ -70,19 +63,22 @@ class Curl {
 			$this->SSL_VERIFYPEER = true;
 			$this->CAINFO = realpath(__DIR__."/cacert.pem");
 		}
-		$this->setopt_array($this->init_options);
+	}
+
+	public function init($options = NULL) {
+		$this->_setup();
+		$this->init_options = array();
 		if (is_object($options) && isset($options->options) && is_array($options->options)) {
-			$this->setopt_array($options->options);
+			$this->init_options = $options->options;
 		} elseif (is_array($options)) {
-			$this->setopt_array($options);
+			$this->init_options = $options;
 		} elseif (is_string($options)) {
-			$this->setopt("URL", $options);
+			$this->init_options = array("URL" => $options);
 		}
 		return $this;
 	}
 
 	public function reset() {
-		return $this->init();
 	}
 
 	public function setopt($option, $value) {
