@@ -75,10 +75,14 @@ class Curl {
 		} elseif (is_string($options)) {
 			$this->init_options = array("URL" => $options);
 		}
+		$this->setopt_array($this->init_options);
 		return $this;
 	}
 
 	public function reset() {
+		$this->_setup();
+		$this->setopt_array($this->init_options);
+		return $this;
 	}
 
 	public function setopt($option, $value) {
