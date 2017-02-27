@@ -59,6 +59,9 @@ $curl->init(array(
 
 // Reinitialize using option from another Curl object as Initialize Default.
 $new_curl->init($curl);
+
+// Reinitialize using current option from itself as Initialize Default.
+$curl->init(true);
 ```
 
 ## Set an option to Curl Handle
