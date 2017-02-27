@@ -66,8 +66,11 @@ class Curl {
 	}
 
 	public function init($options = NULL) {
-		$this->_setup();
 		$this->init_options = array();
+		if ($options === true) {
+			$this->init_options = $this->options;
+		}
+		$this->_setup();
 		if (is_object($options) && isset($options->options) && is_array($options->options)) {
 			$this->init_options = $options->options;
 		} elseif (is_array($options)) {
